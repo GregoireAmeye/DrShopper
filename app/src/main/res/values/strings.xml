@@ -1,0 +1,69 @@
+<resources>
+
+    <string name="app_name">Dr. Shopper</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Menu-->
+    <string name="openDrawer">Open drawer</string>
+    <string name="closeDrawer">Close drawer</string>
+    <string name="recipes_string">Recipes</string>
+    <string name="lists_string">Shopping lists</string>
+
+    <!--Login screen-->
+    <string name="register_link"><u>Register</u></string>
+    <string name="forgot_password_link"><u>Forgot password?</u></string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_facebook">Sign in with Facebook</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string><string name="permission_rationale">"Contacts permissions are needed for providing email
+    completions."</string>
+    <string name="Register">register</string>
+    <string name="action_register">Register</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!--Register-->
+    <string name="prompt_firstname">First name</string>
+    <string name="prompt_lastname">Last name</string>
+
+
+    <!--Reset Password-->
+    <string name="action_reset_password">Reset password</string>
+    <string name="forgot_password">Forgot your password? Don\'t worry, we\'ve got your back. Enter your email so we can help you out.</string>
+
+    <!--Shopping List-->
+    <string name="shoppinglist_name">List Name</string>
+    <string name="shoppinglist_contacts">Contacten</string>
+
+    <!--Recipe-->
+    <string name="recipe_name">Recipe Name</string>
+    <string name="recipe_description">Description</string>
+    <string name="recipe_category">Category</string>
+
+    <!-- placeholder -->
+    <string name="ph">Test</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_shopping_list">ShoppingListActivity</string>
+    <string name="title_activity_shopping_list_detail">ShoppingListDetailActivity</string>
+    <string name="title_activity_main">Shopping Lists</string>
+    <string name="delete">DELETE</string>
+    <string name="drshopper.token">drshopper.token</string>
+    <string name="drshopper.username">drshopper.username</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_ShoppingLists">Your lists</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_recipes">Recipes</string>
+    <string name="title_activity_create_recipe">CreateRecipeActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_favourite_recipe">Favorite</string>
+    <string name="action_edit_recipe">Edit</string>
+    <string name="action_delete_recipe">Delete</string>
+    <string name="logout_string">Logout</string>
+    <string name="action_create_recipe">Save</string>
+</resources>

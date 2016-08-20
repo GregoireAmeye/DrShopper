@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:id="@+id/popup_add_ingredient">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etIngredientName"
+        android:hint="Ingredient"
+        android:focusableInTouchMode="true"
+        >
+        <requestFocus />
+        </EditText>
+
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+
+        <EditText
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:id="@+id/etQuantity"
+            android:layout_weight="1"
+            android:hint="Quantity"
+            android:inputType="number"/>
+
+        <AutoCompleteTextView
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+            android:id="@+id/etMeasure"
+            android:layout_weight="1"
+            android:hint="Measure" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add ingredient"
+        android:id="@+id/btnAddIngredient"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

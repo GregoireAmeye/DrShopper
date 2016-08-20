@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="be.howest.nmct.drshopper.CreateShopListActivity"
+    android:weightSum="1">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etShoppingListName"
+        android:hint="Shopping list name"
+        android:layout_margin="5px" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:id="@+id/imgSelectShoppingListPic"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/pictureupload"
+
+
+        android:maxWidth="200px"
+        android:maxHeight="100px"
+        android:layout_weight="0.11" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Create shopping list"
+        android:id="@+id/btnCreateShoppingList"
+        android:enabled="false"
+        android:layout_margin="5px" />
+    <TextView
+        android:id="@+id/tvErrorCreateShopList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:textColor="#FF0000"/>
+
+</LinearLayout>

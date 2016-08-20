@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    compileSdkVersion 23
+    buildToolsVersion '22.0.1'
+    defaultConfig {
+        applicationId "be.howest.nmct.drshopper"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 5
+        versionName "1.1"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'de.hdodenhof:circleimageview:1.3.0'
+    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.3'
+    compile 'com.madgag:markdownj-core:0.4.1'
+    compile 'org.apache.httpcomponents:com.springsource.org.apache.httpcomponents.httpclient:4.2.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:support-v4:23.1.1'
+}
