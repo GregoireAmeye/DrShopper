@@ -12,26 +12,32 @@ public class Recipe {
     private String URLFoto;
     private String Description;
     private String Instruction;
+    private List<Ingredient> Ingredients;
+
+    public Recipe() {
+        Ingredients = new ArrayList<>();
+        Description = "No Description";
+        Instruction = "No Instructions";
+    }
+
+    public Recipe(int id, String name, String urlFoto, String description, String instruction, List<Ingredient> ingredients) {
+        ID = id;
+        Name = name;
+        if (urlFoto != "" && urlFoto != null && urlFoto != "null") URLFoto = urlFoto;
+        else
+            URLFoto = "https://d1hekt5vpuuw9b.cloudfront.net/assets/article/b7812de1163a8890bc10f36298ed7906_make-your-own-heirloom-cookbook-lede-580x326_featuredImage.jpg";
+        Description = description;
+        Instruction = instruction;
+        Ingredients = ingredients;
+    }
+
+    ;
 
     public List<Ingredient> getIngredients() {
         return Ingredients;
     }
 
-    private List<Ingredient> Ingredients;
-
-    public Recipe(){
-        Ingredients = new ArrayList<>();
-        Description = "No Description";
-        Instruction = "No Instructions";
-    };
-
-    public Recipe(int id, String name, String urlFoto, String description, String instruction, List<Ingredient> ingredients) {
-        ID = id;
-        Name = name;
-        if(urlFoto != "" && urlFoto != null && urlFoto != "null") URLFoto = urlFoto;
-        else URLFoto = "https://d1hekt5vpuuw9b.cloudfront.net/assets/article/b7812de1163a8890bc10f36298ed7906_make-your-own-heirloom-cookbook-lede-580x326_featuredImage.jpg";
-        Description = description;
-        Instruction = instruction;
+    public void setIngredients(List<Ingredient> ingredients) {
         Ingredients = ingredients;
     }
 
@@ -75,11 +81,7 @@ public class Recipe {
         Instruction = instruction;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        Ingredients = ingredients;
-    }
-
-    public void addIngredient(Ingredient ingredient){
+    public void addIngredient(Ingredient ingredient) {
         Ingredients.add(ingredient);
     }
 }

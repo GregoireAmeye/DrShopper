@@ -2,7 +2,6 @@ package be.howest.nmct.drshopper.Admin;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,9 +19,6 @@ import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
 import be.howest.nmct.drshopper.ListAdapter;
 import be.howest.nmct.drshopper.R;
 import be.howest.nmct.drshopper.Service.ShoppingListService;
-import be.howest.nmct.drshopper.ShoppingListDetailActivity;
-import be.howest.nmct.drshopper.ShoppingListDetailScrollActivity;
-import be.howest.nmct.drshopper.ShoppingListsActivity;
 
 public class SendIngredientsToShoplistAlert extends DialogFragment {
     public onSendListener mListener;

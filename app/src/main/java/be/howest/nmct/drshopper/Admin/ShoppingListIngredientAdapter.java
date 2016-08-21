@@ -1,14 +1,11 @@
 package be.howest.nmct.drshopper.Admin;
 
 
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;

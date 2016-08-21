@@ -1,6 +1,5 @@
 package be.howest.nmct.drshopper;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,20 +11,15 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,25 +27,18 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import be.howest.nmct.drshopper.Admin.Globals;
-import be.howest.nmct.drshopper.Admin.Models.Recipe;
-import be.howest.nmct.drshopper.Service.RecipeService;
 import be.howest.nmct.drshopper.Tabs.SlidingTabLayout;
 import be.howest.nmct.drshopper.Tabs.ViewPagerAdapter;
 
 
 public class RecipesActivity extends ActionBarActivity {
     public String EXTRA_RC_TO_DELETE;
-    private NavigationView navigationView;
-    private NavigationView navigationViewFooter;
-    private DrawerLayout drawerLayout;
     TextView tvUsername;
     Toolbar toolbar;
     ViewPager pager;
@@ -60,11 +47,31 @@ public class RecipesActivity extends ActionBarActivity {
     FloatingActionButton fabAddNewRecipe;
     CoordinatorLayout coordinatorLayout;
     Intent intent;
-    String[] Titles = {"Your","Favourite", "Featured"};
-
+    String[] Titles = {"Your", "Favourite", "Featured"};
     int Numboftabs = Titles.length;
-    private AdView adView;
     Context c = null;
+    private NavigationView navigationView;
+    private NavigationView navigationViewFooter;
+    private DrawerLayout drawerLayout;
+    private AdView adView;
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            Log.e("src", src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap", "returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception", e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +94,6 @@ public class RecipesActivity extends ActionBarActivity {
                 .build();
         // Load ads into Banner Ads
         adView.loadAd(adRequest);
-
 
 
         // Initializing Toolbar and setting it as the actionbar
@@ -167,7 +173,7 @@ public class RecipesActivity extends ActionBarActivity {
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
+                                switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         //Yes button clicked
                                         SharedPreferences prefs = getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
@@ -201,7 +207,7 @@ public class RecipesActivity extends ActionBarActivity {
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -219,10 +225,9 @@ public class RecipesActivity extends ActionBarActivity {
 
         //Setting the actionbarToggle to drawer layout
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        
+
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-
 
 
         //change headerview
@@ -231,7 +236,7 @@ public class RecipesActivity extends ActionBarActivity {
         //((TextView) findViewById(R.id.tvUsernameDrawer)).setText(g.getUsername());
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), Titles,Numboftabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -251,24 +256,6 @@ public class RecipesActivity extends ActionBarActivity {
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src", src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
-        }
     }
 
     private void CreateNewRecipe() {

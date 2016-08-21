@@ -1,9 +1,7 @@
 package be.howest.nmct.drshopper.Admin;
 
-import android.app.Application;
-
 //Singleton classe https://androidresearch.wordpress.com/2012/03/22/defining-global-variables-in-android/
-public class Globals{
+public class Globals {
     private static Globals instance;
 
     // Global variable
@@ -14,46 +12,49 @@ public class Globals{
     private String APIurl = "http://drshopper.gear.host";
 
     // Restrict the constructor from being instantiated
-    private Globals(){}
+    private Globals() {
+    }
 
+    public static synchronized Globals getInstance() {
+        if (instance == null) {
+            instance = new Globals();
+        }
+        return instance;
+    }
 
-    public String getToken(){
+    public String getToken() {
         return token;
     }
-    public void setToken(String token){
+
+    public void setToken(String token) {
         this.token = token;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
-    public void setUsername(String username){
+
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
-    public void setEmail(String email){
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
-
-    public String getFotoUrl(){
+    public String getFotoUrl() {
         return fotoUrl;
     }
-    public void setFotoUrl(String fotoUrl){
+
+    public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
     }
 
-    public String getAPIurl(){
+    public String getAPIurl() {
         return APIurl;
-    }
-
-    public static synchronized Globals getInstance(){
-        if(instance==null){
-            instance=new Globals();
-        }
-        return instance;
     }
 }

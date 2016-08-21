@@ -10,16 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import be.howest.nmct.drshopper.Admin.Models.Recipe;
-import be.howest.nmct.drshopper.Service.RecipeService;
 import be.howest.nmct.drshopper.Service.YummlyService;
 
 
@@ -59,15 +55,15 @@ public class YourRecipesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recipes_yourrecipes, container, false);
 
 
-        if(Recipes!=null) Recipes.clear();
+        if (Recipes != null) Recipes.clear();
 
 
-        java.util.Date date= new Date();
+        java.util.Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int month = cal.get(Calendar.MONTH);
 
-        month +=1;
+        month += 1;
 
         String season = getSeason(month);
 
@@ -75,8 +71,7 @@ public class YourRecipesFragment extends Fragment {
 
         Recipes.addAll(seasonRecipes);
 
-        if(Recipes.size() != 0)
-        {
+        if (Recipes.size() != 0) {
             RelativeLayout warning = (RelativeLayout) v.findViewById(R.id.warningNoRecipes);
             warning.setVisibility(View.GONE);
         }
@@ -112,7 +107,7 @@ public class YourRecipesFragment extends Fragment {
     }
 
     String getSeason(int month) {
-        switch(month) {
+        switch (month) {
             case 11:
             case 12:
             case 1:

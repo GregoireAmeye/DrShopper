@@ -43,12 +43,11 @@ public class AllRecipesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recipes_all, container, false);
 
         try {
-            if(lstRecipes!=null) lstRecipes.clear();
+            if (lstRecipes != null) lstRecipes.clear();
             lstRecipes = new RecipeService.getRecipesAsync().execute().get();
 
-            if(lstRecipes != null)
-            {
-                if(lstRecipes.size() != 0) {
+            if (lstRecipes != null) {
+                if (lstRecipes.size() != 0) {
                     RelativeLayout warning = (RelativeLayout) v.findViewById(R.id.warningNoRecipes);
                     warning.setVisibility(View.GONE);
                 }
@@ -69,11 +68,11 @@ public class AllRecipesFragment extends Fragment {
         }
 
 
-        lst.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
-                intent.putExtra(RecipeDetailActivity.EXTRA_RC, ""+lstRecipes.get(position).getID());
+                intent.putExtra(RecipeDetailActivity.EXTRA_RC, "" + lstRecipes.get(position).getID());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

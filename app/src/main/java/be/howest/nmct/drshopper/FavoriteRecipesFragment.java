@@ -41,21 +41,18 @@ public class FavoriteRecipesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recipes_favorites, container, false);
         FavoritesDatabase database = new FavoritesDatabase(getContext());
-        try{
+        try {
             database.open();
 
             recipes.clear();
             recipes = database.readAllFavorites();
             database.close();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
 
-        if(recipes.size() != 0)
-        {
+        if (recipes.size() != 0) {
             RelativeLayout warning = (RelativeLayout) v.findViewById(R.id.warningNoRecipes);
             warning.setVisibility(View.GONE);
         }
@@ -70,7 +67,7 @@ public class FavoriteRecipesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
                 if (recipes.get(position).getID() != 0) {
                     intent.putExtra(RecipeDetailActivity.EXTRA_RC, "" + recipes.get(position).getID());
-                }else{
+                } else {
                     intent.putExtra(RecipeDetailActivity.EXTRA_RC, "" + recipes.get(position).getName());
                     intent.putExtra(RecipeDetailActivity.EXTRA_YUMMLY, true);
                 }

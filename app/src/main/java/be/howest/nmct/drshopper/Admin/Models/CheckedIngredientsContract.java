@@ -7,16 +7,17 @@ import android.provider.BaseColumns;
  */
 public final class CheckedIngredientsContract {
 
-        public CheckedIngredientsContract() {}
+    public CheckedIngredientsContract() {
+    }
 
 
-        public static abstract class IngredientEntry implements BaseColumns {
-            public static final String TABLE_NAME = "ingredient";
-            public static final String COLUMN_NAME_INGREDIENT_ID = "ingredientId";
-            public static final String COLUMN_NAME_CHECKED = "CHECKED";
-            public static final String COLUMN_NAME_SHOPPINGLIST_ID = "shoppinglistId";
+    public static abstract class IngredientEntry implements BaseColumns {
+        public static final String TABLE_NAME = "ingredient";
+        public static final String COLUMN_NAME_INGREDIENT_ID = "ingredientId";
+        public static final String COLUMN_NAME_CHECKED = "CHECKED";
+        public static final String COLUMN_NAME_SHOPPINGLIST_ID = "shoppinglistId";
 
 
-        }
+    }
 
 }

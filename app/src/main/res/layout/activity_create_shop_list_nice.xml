@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -15,8 +15,8 @@
             android:layout_height="@dimen/abc_action_bar_default_height_material"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            app:theme="@style/AppTheme.AppBarOverlay"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/AppTheme.AppBarOverlay" />
 
         <ImageView
             android:id="@+id/imgShoppingListSelectNice"
@@ -24,15 +24,16 @@
             android:layout_height="150dp"
             android:background="#000"
             android:scaleType="centerCrop"
-            android:src="@drawable/list2"/>
+            android:src="@drawable/list2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="32dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -41,15 +42,13 @@
                     android:id="@+id/etShoppingListNameNice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Shoppinglist name"
-                    android:capitalize="sentences"/>
+                    android:capitalize="sentences"
+                    android:hint="Shoppinglist name" />
 
             </android.support.design.widget.TextInputLayout>
 
 
-
         </LinearLayout>
-
 
 
         <!--<LinearLayout-->
@@ -94,9 +93,6 @@
         <!--</LinearLayout>-->
 
 
-
-
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -107,6 +103,6 @@
         android:clickable="true"
         android:src="@drawable/ic_add_a_photo_white_24dp"
         app:layout_anchor="@id/imgShoppingListSelectNice"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

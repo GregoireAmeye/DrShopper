@@ -4,6 +4,5 @@
         android:id="@+id/logout"
         android:checked="false"
         android:icon="@drawable/ic_logout"
-        android:title="@string/logout_string"
-        />
+        android:title="@string/logout_string" />
 </menu>

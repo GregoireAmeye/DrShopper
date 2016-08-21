@@ -8,13 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import be.howest.nmct.drshopper.Admin.Models.OfflineShoppingListsContract;
-import be.howest.nmct.drshopper.Admin.Models.Recipe;
 import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
-import be.howest.nmct.drshopper.R;
-import be.howest.nmct.drshopper.Service.RecipeService;
 
 public class OfflineShoppinglistDatabase {
 

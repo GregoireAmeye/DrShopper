@@ -5,31 +5,14 @@ package be.howest.nmct.drshopper.Admin.Models;
  */
 public class Ingredient {
 
+    public Boolean isChecked;
     private int id;
     private String name;
     private String quantityName;
-
-    public Boolean getIsChecked() {
-        return isChecked;
-    }
-
-    public void setIsChecked(Boolean isChecked) {
-        this.isChecked = isChecked;
-    }
-
-    public Boolean isChecked;
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setQuantityName(String quantityName) {
-        this.quantityName = quantityName;
-    }
-
     private String quantity;
 
-    public Ingredient(){}
+    public Ingredient() {
+    }
 
     public Ingredient(String name) {
         this.name = name;
@@ -49,6 +32,14 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
+    public Boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(Boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
     public int getID() {
         return id;
     }
@@ -61,7 +52,15 @@ public class Ingredient {
         return quantityName;
     }
 
+    public void setQuantityName(String quantityName) {
+        this.quantityName = quantityName;
+    }
+
     public String getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 }

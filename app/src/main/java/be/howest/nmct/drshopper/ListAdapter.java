@@ -1,7 +1,6 @@
 package be.howest.nmct.drshopper;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +18,11 @@ import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
 //
 public class ListAdapter extends ArrayAdapter<ShoppingList> {
 
+    public static List<ShoppingList> ShoppingLists;
     public SparseBooleanArray mSelectedItemsIds;
+    ShoppingList sl;
     private LayoutInflater inflater;
     private Context mContext;
-    public static List<ShoppingList> ShoppingLists;
 
     public ListAdapter(Context context, List<ShoppingList> ShoppingLists) {
         super(context, R.layout.row_list, R.id.tvNameList, ShoppingLists);
@@ -32,12 +32,10 @@ public class ListAdapter extends ArrayAdapter<ShoppingList> {
         this.ShoppingLists = ShoppingLists;
     }
 
-    public void clearAdapter(){
+    public void clearAdapter() {
         ShoppingLists.clear();
         notifyDataSetChanged();
     }
-
-    ShoppingList sl;
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -45,8 +43,7 @@ public class ListAdapter extends ArrayAdapter<ShoppingList> {
         sl = ShoppingLists.get(position);
         ViewHolder vh = (ViewHolder) row.getTag();
 
-        if(vh==null)
-        {
+        if (vh == null) {
             vh = new ViewHolder(row);
             row.setTag(vh);
         }
@@ -56,7 +53,7 @@ public class ListAdapter extends ArrayAdapter<ShoppingList> {
 
 
         final ImageView imgList = (ImageView) vh.imgList;
-        if(sl.getUrl()!=null)
+        if (sl.getUrl() != null)
             Picasso.with(getContext()).load(sl.getUrl()).into(imgList);
         else
             Picasso.with(getContext()).load(R.drawable.list2).into(imgList);

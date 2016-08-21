@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -11,39 +12,44 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <EditText
         android:id="@+id/etEmail"
-        android:hint="Email"
+        style="@style/ClassicMargin5Px"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        style="@style/ClassicMargin5Px"/>
+        android:hint="Email" />
+
     <EditText
         android:id="@+id/etPassword"
-        android:hint="Password"
+        style="@style/ClassicMargin5Px"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:password="true"
-        style="@style/ClassicMargin5Px"/>
+        android:hint="Password"
+        android:password="true" />
+
     <EditText
         android:id="@+id/etPasswordConfirm"
-        android:hint="Confirm password"
+        style="@style/ClassicMargin5Px"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:password="true"
-        style="@style/ClassicMargin5Px"/>
+        android:hint="Confirm password"
+        android:password="true" />
+
     <Button
         android:id="@+id/btnRegister"
-        android:text="Register"
+        style="@style/ClassicMargin5Px"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        style="@style/ClassicMargin5Px"
-        android:enabled="false"/>
+        android:enabled="false"
+        android:text="Register" />
+
     <TextView
         android:id="@+id/tvErrorRegister"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
-        android:textColor="#FF0000"/>
+        android:textColor="#FF0000" />
 
 </LinearLayout>

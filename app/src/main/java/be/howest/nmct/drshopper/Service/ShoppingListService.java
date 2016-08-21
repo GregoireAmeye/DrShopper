@@ -31,25 +31,147 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import be.howest.nmct.drshopper.Admin.Globals;
 import be.howest.nmct.drshopper.Admin.Models.Ingredient;
 import be.howest.nmct.drshopper.Admin.Models.Quantity;
 import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
-import be.howest.nmct.drshopper.Admin.Globals;
 
 public class ShoppingListService {
+    public static int ResponseIngredientId = 0;
     static ArrayList<ShoppingList> sLists = new ArrayList<ShoppingList>();
     static ShoppingList sl = null;
-    public static int ResponseIngredientId=0;
+
+    public static void deleteShoppingList(int id) {
+        URL url = null;
+        Globals g = Globals.getInstance();
+        try {
+            url = new URL(g.getAPIurl()+"/Api/ShoppingList/DeleteShoppingList?id=" + id);
+        } catch (MalformedURLException exception) {
+            exception.printStackTrace();
+        }
+        HttpURLConnection httpURLConnection = null;
+        try {
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
+            httpURLConnection.setRequestMethod("DELETE");
+            httpURLConnection.setRequestProperty("Authorization", "bearer " + g.getToken());
+            System.out.println(httpURLConnection.getResponseCode());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+        }
+    }
+
+    public static void addIngredientsToShoppingList(final List<Ingredient> ingredients, final int shoppinglistId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Globals g = Globals.getInstance();
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(g.getAPIurl()+"/IngredientDel/AddIngredientsToShoppingList");
+
+                try {
+                    httppost.setHeader("Authorization", "Bearer " + g.getToken());
+
+
+                    List<NameValuePair> nameValuePairs = new ArrayList<>(ingredients.size());
+                    int count = 0;
+                    for (Ingredient i : ingredients) {
+
+                        nameValuePairs.add(new BasicNameValuePair("ingr", i.getName() + ""));
+                    }
+                    nameValuePairs.add(new BasicNameValuePair("shoplistid", shoppinglistId + ""));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost);
+
+
+                    System.out.println(response);
+
+                } catch (ClientProtocolException e) {
+                    Log.e(e.getClass().getName(), e.getMessage());
+                } catch (IOException e) {
+                    Log.e(e.getClass().getName(), e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    public static void clearIngredients(final List<Ingredient> ingredients) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Globals g = Globals.getInstance();
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(g.getAPIurl()+"/IngredientDel/RemoveIngredients");
+
+                try {
+                    httppost.setHeader("Authorization", "Bearer " + g.getToken());
+
+
+                    List<NameValuePair> nameValuePairs = new ArrayList<>(ingredients.size());
+                    int count = 0;
+                    for (Ingredient i : ingredients) {
+
+                        nameValuePairs.add(new BasicNameValuePair("ids", i.getID() + ""));
+                    }
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost);
+
+
+                    System.out.println(response);
+
+                } catch (ClientProtocolException e) {
+                    Log.e(e.getClass().getName(), e.getMessage());
+                } catch (IOException e) {
+                    Log.e(e.getClass().getName(), e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    //HULP METHODES
+    private static ShoppingList makeShoppingList(JSONObject jObj) throws JSONException {
+        JSONArray jArr = jObj.getJSONArray("Ingredients");
+        List<Ingredient> sIngredients = new ArrayList<Ingredient>();
+
+
+        for (int i = 0; i < jArr.length(); i++) {
+            JSONObject ingredient = jArr.getJSONObject(i);
+            Ingredient ing = makeIngredient(ingredient);
+            sIngredients.add(ing);
+        }
+
+        ShoppingList sl = new ShoppingList(
+                jObj.getInt("ID"), jObj.getString("Name"), "NZ GA SD", sIngredients, jObj.getString("URLFoto")
+        );
+        return sl;
+    }
+
+    private static Ingredient makeIngredient(JSONObject jObj) throws JSONException {
+        Ingredient i = new Ingredient(
+                jObj.getInt("ID"), jObj.getString("Name"), "", ""
+        );
+        i.setIsChecked(false);
+
+        return i;
+    }
 
     public static class getListsAsync extends AsyncTask<String, String, ArrayList<ShoppingList>> {
         public ArrayList<ShoppingList> doInBackground(String... args) {
             Globals g = Globals.getInstance();
 
             try {
-                if(sLists.size()!=0)
+                if (sLists.size() != 0)
                     sLists.clear();
-                URL url = new URL(g.getEmail()+"/api/shoppinglist/GetAllShoppingListsFromUser");
+                URL url = new URL(g.getAPIurl() + "/api/shoppinglist/GetAllShoppingListsFromUser");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
@@ -89,8 +211,8 @@ public class ShoppingListService {
             Globals g = Globals.getInstance();
 
             try {
-                Log.d("FUJITORA", "ID LIST: " +id[0]);
-                URL url = new URL("http://drshopperapi.azurewebsites.net/Api/ShoppingList/" + id[0]);
+                Log.d("FUJITORA", "ID LIST: " + id[0]);
+                URL url = new URL(g.getAPIurl()+"/Api/ShoppingList/" + id[0]);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
@@ -128,15 +250,15 @@ public class ShoppingListService {
         protected Boolean doInBackground(Object... params) {
             HttpClient httpclient = new DefaultHttpClient();
             String listname = params[0].toString();
-           listname = listname.replaceAll(" ","%20");
-            HttpPost httppost = new HttpPost("http://drshopperapi.azurewebsites.net/Api/ShoppingList/postshoplistpic?listname=" + listname);
+            listname = listname.replaceAll(" ", "%20");
             Globals g = Globals.getInstance();
+            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/ShoppingList/postshoplistpic?listname=" + listname);
             byte[] data = null;
             try {
                 httppost.setHeader("Authorization", "Bearer " + g.getToken());
                 Bitmap bm = null;
-                if(params.length>1){
-                    bm = (Bitmap)params[1];
+                if (params.length > 1) {
+                    bm = (Bitmap) params[1];
                 }
 
                 MultipartEntity entity = new MultipartEntity();
@@ -171,38 +293,12 @@ public class ShoppingListService {
         }
     }
 
-
-    public static void deleteShoppingList(int id){
-        URL url = null;
-        Globals g = Globals.getInstance();
-        try {
-            url = new URL("http://drshopperapi.azurewebsites.net/Api/ShoppingList/DeleteShoppingList?id=" +id);
-        } catch (MalformedURLException exception) {
-            exception.printStackTrace();
-        }
-        HttpURLConnection httpURLConnection = null;
-        try {
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-            httpURLConnection.setRequestMethod("DELETE");
-            httpURLConnection.setRequestProperty("Authorization", "bearer " + g.getToken());
-            System.out.println(httpURLConnection.getResponseCode());
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
-    }
-
     public static class getQuantities extends AsyncTask<String, String, List<Quantity>> {
         public List<Quantity> doInBackground(String... id) {
             Globals g = Globals.getInstance();
             List<Quantity> quantities = new ArrayList<Quantity>();
             try {
-                URL url = new URL("http://drshopperapi.azurewebsites.net/Api/ShoppingList/getquantities?shoppinglistid=" + id[0]);
+                URL url = new URL(g.getAPIurl()+"/Api/ShoppingList/getquantities?shoppinglistid=" + id[0]);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
@@ -236,7 +332,7 @@ public class ShoppingListService {
 
         private List<Quantity> makeQuantityList(JSONArray jArr) throws JSONException {
             List<Quantity> quantities = new ArrayList<>();
-            for(int i = 0; i<jArr.length();i++){
+            for (int i = 0; i < jArr.length(); i++) {
                 JSONObject quantity = jArr.getJSONObject(i);
                 Quantity q = makeQuantity(quantity);
                 quantities.add(q);
@@ -256,88 +352,10 @@ public class ShoppingListService {
         }
     }
 
-    public static void addIngredientsToShoppingList(final List<Ingredient> ingredients, final int shoppinglistId){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Globals g = Globals.getInstance();
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://drshopperapi.azurewebsites.net/IngredientDel/AddIngredientsToShoppingList");
-
-                try {
-                    httppost.setHeader("Authorization", "Bearer " + g.getToken());
-
-
-
-
-                    List<NameValuePair> nameValuePairs = new ArrayList<>(ingredients.size());
-                    int count = 0;
-                    for(Ingredient i : ingredients){
-
-                        nameValuePairs.add(new BasicNameValuePair("ingr",i.getName()+""));
-                    }
-                    nameValuePairs.add(new BasicNameValuePair("shoplistid", shoppinglistId+""));
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    // Execute HTTP Post Request
-                    HttpResponse response = httpclient.execute(httppost);
-
-
-
-                    System.out.println(response);
-
-                } catch (ClientProtocolException e) {
-                    Log.e(e.getClass().getName(), e.getMessage());
-                } catch (IOException e) {
-                    Log.e(e.getClass().getName(), e.getMessage());
-                }
-            }
-        }).start();
-    }
-
-    public static void clearIngredients(final List<Ingredient> ingredients){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Globals g = Globals.getInstance();
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://drshopperapi.azurewebsites.net/IngredientDel/RemoveIngredients");
-
-                try {
-                    httppost.setHeader("Authorization", "Bearer " + g.getToken());
-
-
-
-
-                List<NameValuePair> nameValuePairs = new ArrayList<>(ingredients.size());
-                    int count = 0;
-                    for(Ingredient i : ingredients){
-
-                        nameValuePairs.add(new BasicNameValuePair("ids",i.getID()+""));
-                    }
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    // Execute HTTP Post Request
-                    HttpResponse response = httpclient.execute(httppost);
-
-
-
-                    System.out.println(response);
-
-                } catch (ClientProtocolException e) {
-                    Log.e(e.getClass().getName(), e.getMessage());
-                } catch (IOException e) {
-                    Log.e(e.getClass().getName(), e.getMessage());
-                }
-            }
-        }).start();
-    }
-
-
-
-    public static class addIngredientToList extends AsyncTask<String, String, Boolean>{
+    public static class addIngredientToList extends AsyncTask<String, String, Boolean> {
         String ingredientName, quantity, measure;
         int shoplistId;
+
         public addIngredientToList(String ingredientName, String quanitity, String measure, int shoplistId) {
             this.ingredientName = ingredientName;
             this.quantity = quanitity;
@@ -347,13 +365,11 @@ public class ShoppingListService {
 
         public Boolean doInBackground(String... args) {
             Globals g = Globals.getInstance();
-             HttpClient httpclient = new DefaultHttpClient();
-             HttpPost httppost = new HttpPost("http://drshopperapi.azurewebsites.net/Api/ShoppingList/PostAddIngredientToShoppingListWithName?ingredient="+ingredientName+"&shoppinglistId="+shoplistId+"&quantityName="+ measure +"&quantityValue=" + quantity);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/ShoppingList/PostAddIngredientToShoppingListWithName?ingredient=" + ingredientName + "&shoppinglistId=" + shoplistId + "&quantityName=" + measure + "&quantityValue=" + quantity);
 
             try {
                 httppost.setHeader("Authorization", "Bearer " + g.getToken());
-
-
 
 
                 //Add your data
@@ -381,35 +397,6 @@ public class ShoppingListService {
             return true;
         }
     }
-
-    //HULP METHODES
-    private static ShoppingList makeShoppingList(JSONObject jObj) throws JSONException {
-        JSONArray jArr = jObj.getJSONArray("Ingredients");
-        List<Ingredient> sIngredients = new ArrayList<Ingredient>();
-
-
-        for (int i = 0;i < jArr.length();i++)
-        {
-            JSONObject ingredient = jArr.getJSONObject(i);
-            Ingredient ing = makeIngredient(ingredient);
-            sIngredients.add(ing);
-        }
-
-        ShoppingList sl = new ShoppingList(
-                jObj.getInt("ID"), jObj.getString("Name"), "NZ GA SD", sIngredients, jObj.getString("URLFoto")
-        );
-        return sl;
-    }
-    private static Ingredient makeIngredient(JSONObject jObj) throws JSONException {
-        Ingredient i = new Ingredient(
-                jObj.getInt("ID"), jObj.getString("Name"), "",""
-        );
-        i.setIsChecked(false);
-
-        return i;
-    }
-
-
 
 
 }

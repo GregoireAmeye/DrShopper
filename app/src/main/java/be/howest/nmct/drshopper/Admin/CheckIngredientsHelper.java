@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.w3c.dom.Text;
-
 import be.howest.nmct.drshopper.Admin.Models.CheckedIngredientsContract;
 
 public class CheckIngredientsHelper extends SQLiteOpenHelper {

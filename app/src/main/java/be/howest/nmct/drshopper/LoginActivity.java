@@ -4,26 +4,24 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +34,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -63,22 +60,21 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      *///
 
     public static final String MY_PREFS_NAME = "MyPrefsFile";
+    /**
+     * Id to identity READ_CONTACTS permission request.
+     */
+    private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world", "test:test"
     };
     public static String EXTRA_EMAILADDRESS = "be.howest.nmct.drshopper.loginactivity.emailaddress";
     public static String EXTRA_PASSWORD = "be.howest.nmct.drshopper.loginactivity.password";
-    int REQUEST_CODE_REGISTER=1;
+    int REQUEST_CODE_REGISTER = 1;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -122,26 +118,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         tvRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class );
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_REGISTER);
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        chkRememberLogin = (CheckBox)findViewById(R.id.chkRememberLogin);
+        chkRememberLogin = (CheckBox) findViewById(R.id.chkRememberLogin);
     }
 
     private void CheckIfRememberLogin() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String restoredText = prefs.getString("drshopper.token", null);
 
-        if(restoredText!=null){
-            String token = prefs.getString(getString(R.string.drshopper_token),"drshopper.token");
-            String username = prefs.getString(getString(R.string.drshopper_username),"drshopper.username");
+        if (restoredText != null) {
+            String token = prefs.getString(getString(R.string.drshopper_token), "drshopper.token");
+            String username = prefs.getString(getString(R.string.drshopper_username), "drshopper.username");
 
-            if(!token.equals("drshopper.token"))
-                LogInBecauseThereIsToken(token,username);
+            if (!token.equals("drshopper.token"))
+                LogInBecauseThereIsToken(token, username);
 
         }
 
@@ -162,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    private void Login(){
+    private void Login() {
         final ProgressDialog ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Logging in ...", true);
 
         ringProgressDialog.setCancelable(true);
@@ -172,13 +168,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void run() {
                 Globals g = Globals.getInstance();
-                final TextView tvControle = (TextView)findViewById(R.id.ctrlPwd);
+                final TextView tvControle = (TextView) findViewById(R.id.ctrlPwd);
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(g.getEmail()+"/Token");
+                HttpPost httpPost = new HttpPost(g.getAPIurl() + "/Token");
                 String TAG = "test";
                 try {
-                    EditText etUsername = ((EditText)findViewById(R.id.email));
-                    EditText etPassword = ((EditText)findViewById(R.id.password));
+                    EditText etUsername = ((EditText) findViewById(R.id.email));
+                    EditText etPassword = ((EditText) findViewById(R.id.password));
 
                     String username = etUsername.getText().toString();
                     String password = etPassword.getText().toString();
@@ -192,15 +188,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     HttpResponse response = httpClient.execute(httpPost);
                     int statusCode = response.getStatusLine().getStatusCode();
-                    if(statusCode == 200)
-                    {
+                    if (statusCode == 200) {
                         final String responseBody = EntityUtils.toString(response.getEntity());
 
                         JSONObject jObj = new JSONObject(responseBody.toString());
                         String token = jObj.getString("access_token");
                         Log.i(TAG, "Token: " + token);
 
-                        if(chkRememberLogin.isChecked())
+                        if (chkRememberLogin.isChecked())
                             WriteTokenToSharedPref(token, username);
                         else
                             WriteTokenToSharedPref("drshopper.token", "drshopper.username");
@@ -215,8 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                         startActivity(intent);
                         finish();
-                    }
-                    else{
+                    } else {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -257,7 +251,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }).start();
 
 
-
     }
 
     private void WriteTokenToSharedPref(String token, String username) {
@@ -271,15 +264,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQUEST_CODE_REGISTER){
-            if(resultCode== Activity.RESULT_OK){
-                EditText etUsername = ((EditText)findViewById(R.id.email));
-                EditText etPassword =((EditText) findViewById(R.id.password));
+        if (requestCode == REQUEST_CODE_REGISTER) {
+            if (resultCode == Activity.RESULT_OK) {
+                EditText etUsername = ((EditText) findViewById(R.id.email));
+                EditText etPassword = ((EditText) findViewById(R.id.password));
                 String email = data.getStringExtra(EXTRA_EMAILADDRESS);
                 String password = data.getStringExtra(EXTRA_PASSWORD);
                 etUsername.setText(email);
                 etPassword.setText(password);
-                if(etPassword.requestFocus()){
+                if (etPassword.requestFocus()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(etPassword, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -399,7 +392,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     *  Shows the progress UI and hides the login form.
+     * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {

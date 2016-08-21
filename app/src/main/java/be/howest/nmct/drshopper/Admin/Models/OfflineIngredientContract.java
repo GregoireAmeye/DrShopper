@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  */
 public class OfflineIngredientContract {
 
-    public static abstract class OfflineIngredientEntry implements BaseColumns{
+    public static abstract class OfflineIngredientEntry implements BaseColumns {
         public static final String TABLE_NAME = "offlineingredients";
         public static final String COLUMN_NAME_INGREDIENTID = "ingrID";
         public static final String COLUMN_NAME_INGREDIENTNAME = "ingrName";

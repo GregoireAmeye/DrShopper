@@ -1,6 +1,6 @@
 package be.howest.nmct.drshopper;
-import android.app.AlertDialog;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,18 +20,15 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -42,8 +38,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Handler;
-import java.util.zip.Inflater;
 
 import be.howest.nmct.drshopper.Admin.Globals;
 import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
@@ -56,20 +50,36 @@ import be.howest.nmct.drshopper.Service.ShoppingListService;
 public class ShoppingListsActivity extends AppCompatActivity {
 
 
+    public static List<ShoppingList> ShoppingLists = null;
+    TextView tvUsername;
+    Context c = null;
+    ListView lst = null;
+    ListAdapter mAdapter = null;
+    FloatingActionButton fabCreateShoppingList;
     private int selectedItemIds[];
-
     private Toolbar toolbar;
     private NavigationView navigationView;
     private NavigationView navigationViewFooter;
     private DrawerLayout drawerLayout;
-    TextView tvUsername;
-    Context c = null;
-
-    public static List<ShoppingList> ShoppingLists = null;
-    ListView lst = null;
-    ListAdapter mAdapter = null;
-    FloatingActionButton fabCreateShoppingList;
     private AdView adView;
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            Log.e("src", src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap", "returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception", e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +103,6 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
         // Load ads into Banner Ads
         adView.loadAd(adRequest);
-
-
-
 
 
         lst = (ListView) findViewById(R.id.lstShoppingList);
@@ -123,9 +130,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
                 CreateNewShoppingList();
             }
         });
-        if(isNetworkAvailable()){
+        if (isNetworkAvailable()) {
             try {
-                if(ShoppingLists!=null) ShoppingLists.clear();
+                if (ShoppingLists != null) ShoppingLists.clear();
                 ShoppingLists = new ShoppingListService.getListsAsync().execute().get();
                 new Thread(new Runnable() {
                     @Override
@@ -134,9 +141,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
                     }
                 }).start();
 
-                if(ShoppingLists != null)
-                {
-                    if(ShoppingLists.size() != 0) {
+                if (ShoppingLists != null) {
+                    if (ShoppingLists.size() != 0) {
                         RelativeLayout warning = (RelativeLayout) findViewById(R.id.warningNoLists);
                         warning.setVisibility(View.GONE);
                     }
@@ -147,10 +153,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
 
-                    getShoppingListsFromCache();
+            getShoppingListsFromCache();
 
 
         }
@@ -236,7 +241,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
+                                switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         //Yes button clicked
                                         SharedPreferences prefs = getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
@@ -316,32 +321,12 @@ public class ShoppingListsActivity extends AppCompatActivity {
         db.close();
     }
 
-
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src", src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap", "returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception", e.getMessage());
-            return null;
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -377,7 +362,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if(adView!=null)
+        if (adView != null)
             adView.pause();
         super.onPause();
     }
@@ -385,13 +370,13 @@ public class ShoppingListsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(adView!=null)
+        if (adView != null)
             adView.resume();
     }
 
     @Override
     protected void onDestroy() {
-        if(adView!=null)
+        if (adView != null)
             adView.destroy();
         super.onDestroy();
     }
@@ -408,12 +393,11 @@ public class ShoppingListsActivity extends AppCompatActivity {
         }
 
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            if(item.getItemId() == R.id.delete)
-            {
+            if (item.getItemId() == R.id.delete) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 // Calls getSelectedIds method from ListViewAdapter Class
@@ -434,7 +418,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
                                 // Close CAB
                                 Intent myIntent = new Intent(ShoppingListsActivity.this, ShoppingListsActivity.class);
-                               myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(myIntent);
                                 finish();
                                 break;
@@ -449,11 +433,11 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(c);
                 String items;
-                if(mAdapter.getSelectedIds().size() == 1) items = " items?";
+                if (mAdapter.getSelectedIds().size() == 1) items = " items?";
                 else items = " item?";
-                builder.setMessage("Do you really want to delete " +mAdapter
-                        .getSelectedIds().size()+items).setPositiveButton("delete", dialogClickListener)
-                    .setNegativeButton("cancel", dialogClickListener).show();
+                builder.setMessage("Do you really want to delete " + mAdapter
+                        .getSelectedIds().size() + items).setPositiveButton("delete", dialogClickListener)
+                        .setNegativeButton("cancel", dialogClickListener).show();
                 return true;
             }
             return false;

@@ -3,10 +3,9 @@ package be.howest.nmct.drshopper;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,19 +23,20 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import be.howest.nmct.drshopper.Admin.Globals;
 import be.howest.nmct.drshopper.Admin.Models.Ingredient;
 import be.howest.nmct.drshopper.Admin.Models.Quantity;
 import be.howest.nmct.drshopper.Admin.Models.ShoppingList;
-import be.howest.nmct.drshopper.Admin.Globals;
 import be.howest.nmct.drshopper.Service.ShoppingListService;
+
 ////
 public class ShoppingListDetailActivity extends AppCompatActivity {
 
     public final static String EXTRA_SL = "be.howest.nmct.drshopper.SHOPPINGLIST";
-
-    private ShareActionProvider mShareActionProvider;
     ShoppingList sl = null;
     List<Quantity> quantities = null;
+    private ShareActionProvider mShareActionProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class ShoppingListDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int id = intent.getIntExtra(EXTRA_SL, 0);
         try {
-            sl =  new ShoppingListService.getByIdAsync().execute(""+id).get();
+            sl = new ShoppingListService.getByIdAsync().execute("" + id).get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -56,13 +56,13 @@ public class ShoppingListDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        TextView tvNameList =(TextView) findViewById(R.id.tvNameList);
+        TextView tvNameList = (TextView) findViewById(R.id.tvNameList);
         tvNameList.setText(sl.getName());
 
         final ListView lstIngredients = (ListView) findViewById(R.id.lstIngredients);
-        String sIngredients="";
-        for (Ingredient i :sl.getIngredients()) {
-            sIngredients += i.getName()+"-";
+        String sIngredients = "";
+        for (Ingredient i : sl.getIngredients()) {
+            sIngredients += i.getName() + "-";
         }
 
         String[] values = sIngredients.split("-");
@@ -99,7 +99,7 @@ public class ShoppingListDetailActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //new ShoppingListService.addIngredientToList().execute();
+                //new ShoppingListService.addIngredientToList().execute();
             }
         });
 
@@ -118,7 +118,7 @@ public class ShoppingListDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         System.out.println(item.getItemId());
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_delete:
                 promptDialog();
                 break;
@@ -132,11 +132,11 @@ public class ShoppingListDetailActivity extends AppCompatActivity {
     }
 
     private void promptDialog() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         deleteThisList();
                         break;

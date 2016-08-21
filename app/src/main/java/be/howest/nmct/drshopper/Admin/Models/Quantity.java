@@ -5,6 +5,9 @@ package be.howest.nmct.drshopper.Admin.Models;
  */
 public class Quantity {
     int id;
+    int ingredientId;
+    String quantityName;
+    String quantityValue;
 
     public int getId() {
         return id;
@@ -37,8 +40,4 @@ public class Quantity {
     public void setQuantityValue(String quantityValue) {
         this.quantityValue = quantityValue;
     }
-
-    int ingredientId;
-    String quantityName;
-    String quantityValue;
 }

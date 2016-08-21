@@ -6,15 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import be.howest.nmct.drshopper.Admin.Models.CheckedIngredientsContract;
 import be.howest.nmct.drshopper.Admin.Models.Ingredient;
 import be.howest.nmct.drshopper.Admin.Models.OfflineIngredientContract;
-import be.howest.nmct.drshopper.Admin.Models.OfflineShoppingListsContract;
 
 public class OfflineIngredientDatabase {
 

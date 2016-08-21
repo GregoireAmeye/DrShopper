@@ -7,9 +7,10 @@ import android.provider.BaseColumns;
  */
 public class FavoriteReaderContract {
 
-    public FavoriteReaderContract(){}
+    public FavoriteReaderContract() {
+    }
 
-    public static abstract class FavoriteEntry implements BaseColumns{
+    public static abstract class FavoriteEntry implements BaseColumns {
         public static final String TABLE_NAME = "favorites";
         public static final String COLUMN_NAME_SHOPPERRECIPEID = "shopperRecipeId";
 

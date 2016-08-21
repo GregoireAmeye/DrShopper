@@ -1,15 +1,12 @@
 package be.howest.nmct.drshopper;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.AppBarLayout;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -21,10 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Picasso;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -38,7 +33,7 @@ import be.howest.nmct.drshopper.Service.RecipeService;
 import be.howest.nmct.drshopper.Service.ShoppingListService;
 import be.howest.nmct.drshopper.Service.YummlyService;
 
-public class RecipeDetailActivity extends AppCompatActivity implements  SendIngredientsToShoplistAlert.onSendListener {
+public class RecipeDetailActivity extends AppCompatActivity implements SendIngredientsToShoplistAlert.onSendListener {
 
     public final static String EXTRA_RC = "be.howest.nmct.drshopper.RECIPE";
     public final static String EXTRA_YUMMLY = "be.howest.nmct.drshopper.ISYUMMLY";
@@ -70,11 +65,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
         String id = intent.getStringExtra(EXTRA_RC);
         isYummly = intent.getBooleanExtra(EXTRA_YUMMLY, false);
         try {
-            if(isYummly){
+            if (isYummly) {
                 id = id.replace(" ", "%20").replace("'", "%27");
                 recipe = YummlyService.SearchRecipe(id).get(0);
-            }
-            else{
+            } else {
                 recipe = new RecipeService.getByIdAsync().execute(id).get();
             }
         } catch (InterruptedException e) {
@@ -91,24 +85,24 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
 //        TextView tvNameList =(TextView) findViewById(R.id.tvNameRecipe);
 //        tvNameList.setText(recipe.getName());
 
-        TextView tvDescriptionRecipe =(TextView) findViewById(R.id.tvDescriptionRecipe);
+        TextView tvDescriptionRecipe = (TextView) findViewById(R.id.tvDescriptionRecipe);
         tvDescriptionRecipe.setText(recipe.getDescription());
 
-        TextView tvInstructions =(TextView) findViewById(R.id.tvInstructionsRecipe);
+        TextView tvInstructions = (TextView) findViewById(R.id.tvInstructionsRecipe);
         tvInstructions.setText(recipe.getInstruction());
 
         ListView lsvIngredients = (ListView) findViewById(R.id.lsvIngredients);
         lsvIngredients.setScrollContainer(false);
         List<Ingredient> lstIngredients = recipe.getIngredients();
         ArrayList<String> arrayIngredients = new ArrayList<>();
-        for(Ingredient i : lstIngredients){
+        for (Ingredient i : lstIngredients) {
             Log.d("FUJITORA", i.getName());
-            if(i.getQuantity() != "")arrayIngredients.add(i.getName());
+            if (i.getQuantity() != "") arrayIngredients.add(i.getName());
             else arrayIngredients.add(i.getName());
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayIngredients){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayIngredients) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -135,7 +129,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
 
         Intent intent = getIntent();
         boolean isYummly = intent.getBooleanExtra(EXTRA_YUMMLY, false);
-        if(isYummly) {
+        if (isYummly) {
             //menu.findItem(R.id.action_favourite_recipe).setVisible(false);
             menu.findItem(R.id.action_delete_recipe).setVisible(false);
             menu.findItem(R.id.action_edit_recipe).setVisible(false);
@@ -146,10 +140,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
         lstFavoriteRecipes = database.readAllFavorites();
 
 
-        if(!lstFavoriteRecipes.isEmpty()){
-            for (Recipe r : lstFavoriteRecipes){
-                if(r != null){
-                    if(r.getName().equals(recipe.getName())){
+        if (!lstFavoriteRecipes.isEmpty()) {
+            for (Recipe r : lstFavoriteRecipes) {
+                if (r != null) {
+                    if (r.getName().equals(recipe.getName())) {
                         menu.findItem(R.id.action_favourite_recipe).setIcon(getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
                         menu.findItem(R.id.action_favourite_recipe).setChecked(true);
                     }
@@ -171,7 +165,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
 
         //noinspection SimplifiableIfStatement
 
-        switch(id) {
+        switch (id) {
             case R.id.action_sendingredients:
                 openShoppingListDialog();
                 break;
@@ -184,16 +178,15 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
 
     private void deleteRecipe() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch(which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         RecipeService.deleteRecipe(recipe.getID());
                         Intent intent = new Intent(RecipeDetailActivity.this, RecipesActivity.class);
@@ -211,30 +204,29 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(RecipeDetailActivity.this);
         builder
-                .setMessage("Discard "+recipe.getName()+" recipe?")
+                .setMessage("Discard " + recipe.getName() + " recipe?")
                 .setPositiveButton("Discard", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener).show();
 
     }
 
     private void toggleFavorite(MenuItem item) {
-        if(item.isChecked()){
+        if (item.isChecked()) {
             database.open();
-            if(isYummly) database.deleteFavorite(recipe.getName() + "");
+            if (isYummly) database.deleteFavorite(recipe.getName() + "");
             else database.deleteFavorite(recipe.getID() + "");
             database.close();
             item.setIcon(getResources().getDrawable(R.drawable.ic_favorite_border_white_24dp));
-            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Removed from favorites", Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Removed from favorites", Snackbar.LENGTH_SHORT);
             snackbar.show();
             item.setChecked(false);
-        }
-        else if(!item.isChecked()){
+        } else if (!item.isChecked()) {
             database.open();
-            if(isYummly) database.addFavorite(recipe.getName() + "");
+            if (isYummly) database.addFavorite(recipe.getName() + "");
             else database.addFavorite(recipe.getID() + "");
             database.close();
             item.setIcon(getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
-            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Added to favorites", Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Added to favorites", Snackbar.LENGTH_SHORT);
             snackbar.show();
             item.setChecked(true);
         }
@@ -251,13 +243,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements  SendIngr
     @Override
     public void sendIngredientsToShoppinglist(int shoppinglistId, String shoppinglistName) {
         String ingr = "ingredient";
-        if(recipe.getIngredients().size()!=1)
-            ingr+="s";
+        if (recipe.getIngredients().size() != 1)
+            ingr += "s";
         Snackbar
-                .make(coordinatorLayout, "Added " + recipe.getIngredients().size()+ " " + ingr + " to " + shoppinglistName, Snackbar.LENGTH_LONG)
+                .make(coordinatorLayout, "Added " + recipe.getIngredients().size() + " " + ingr + " to " + shoppinglistName, Snackbar.LENGTH_LONG)
                 .show();
         //do this
-        ShoppingListService.addIngredientsToShoppingList(recipe.getIngredients(),shoppinglistId);
+        ShoppingListService.addIngredientsToShoppingList(recipe.getIngredients(), shoppinglistId);
 
     }
 }

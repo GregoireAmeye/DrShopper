@@ -1,23 +1,17 @@
 package be.howest.nmct.drshopper;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -37,12 +30,12 @@ import be.howest.nmct.drshopper.Admin.Models.Keyboard;
 import be.howest.nmct.drshopper.Service.ShoppingListService;
 
 public class CreateShopListActivity extends AppCompatActivity {
+    public static final int FILE_SELECT_CODE = 1;
     ImageView imgPic;
     Uri selectedImageUri = null;
     EditText etShoplistName;
     Button btnCreateShoppinglist;
     TextView tvError;
-    public static final int FILE_SELECT_CODE =1;
     FloatingActionButton fab = null;
 
     @Override
@@ -55,7 +48,7 @@ public class CreateShopListActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fab= (FloatingActionButton) findViewById(R.id.fabAddImage);
+        fab = (FloatingActionButton) findViewById(R.id.fabAddImage);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +56,6 @@ public class CreateShopListActivity extends AppCompatActivity {
                 openFileExplorer();
             }
         });
-
 
 
         imgPic = (ImageView) findViewById(R.id.imgShoppingListSelectNice);
@@ -105,46 +97,37 @@ public class CreateShopListActivity extends AppCompatActivity {
     }
 
 
-
-
     private void goToShoppingListActivity() {
         Intent myIntent = new Intent(CreateShopListActivity.this, ShoppingListsActivity.class);
 
         CreateShopListActivity.this.startActivity(myIntent);
         FragmentManager fm = getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }
     }
 
 
-
-
     private void createShoppingList() {
         Keyboard.toggle(this);
-        try{
-            if(selectedImageUri!=null){
+        try {
+            if (selectedImageUri != null) {
 
-                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
-                boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString(),bm).get();
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString(), bm).get();
 
-            }
-            else{
+            } else {
                 boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString()).get();
 
 
             }
-        }
-        catch(FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
 
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
 
-        }
-        catch(InterruptedException ex){
+        } catch (InterruptedException ex) {
 
-        }
-        catch(ExecutionException ex){
+        } catch (ExecutionException ex) {
 
         }
 
@@ -157,20 +140,20 @@ public class CreateShopListActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent,FILE_SELECT_CODE);
+            startActivityForResult(intent, FILE_SELECT_CODE);
 
         } else {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
-            startActivityForResult(intent,FILE_SELECT_CODE);
+            startActivityForResult(intent, FILE_SELECT_CODE);
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK){
-            switch(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case FILE_SELECT_CODE:
                     selectedImageUri = data.getData();
                     setBitMapImageview(selectedImageUri);
@@ -183,14 +166,12 @@ public class CreateShopListActivity extends AppCompatActivity {
     private void setBitMapImageview(Uri selectedImageUri) {
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-            bm = Bitmap.createScaledBitmap(bm,250,250,true);
+            bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
             imgPic.setImageBitmap(bm);
-        }
-        catch(FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             Log.e(ex.getClass().getName(), ex.getMessage());
-        }
-        catch(IOException ex){
-            Log.e(ex.getClass().getName(),ex.getMessage());
+        } catch (IOException ex) {
+            Log.e(ex.getClass().getName(), ex.getMessage());
         }
     }
 
@@ -198,7 +179,6 @@ public class CreateShopListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_create_recipe, menu);
-
 
 
         return true;

@@ -18,26 +18,26 @@ import be.howest.nmct.drshopper.Admin.Models.Recipe;
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
     private final List<Recipe> lstRecipes;
+    Recipe r;
+
     public RecipeAdapter(Context context, List<Recipe> Recipes) {
-            super(context, R.layout.row_recipe, R.id.tvNameRecipe, Recipes);
-            this.lstRecipes = Recipes;
+        super(context, R.layout.row_recipe, R.id.tvNameRecipe, Recipes);
+        this.lstRecipes = Recipes;
     }
 
-    public void clearAdapter(){
+    public void clearAdapter() {
         lstRecipes.clear();
         notifyDataSetChanged();
     }
 
-    Recipe r;
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View row = super.getView(position, convertView, parent);
         r = lstRecipes.get(position);
 
-        ViewHolder vh= (ViewHolder) row.getTag();
+        ViewHolder vh = (ViewHolder) row.getTag();
 
-        if(vh==null)
-        {
+        if (vh == null) {
             vh = new ViewHolder(row);
             row.setTag(vh);
         }

@@ -59,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 ShowDialogAndRegisterUser();
             }
         });
@@ -78,8 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (!isEmailValid(s.toString())) {
                     etEmail.setError("Invalid email address");
-                }
-                else{
+                } else {
                     etEmail.setError(null);
                 }
 
@@ -140,13 +141,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
-
-
-
     }
 
     private void ShowDialogAndRegisterUser() {
-        final ProgressDialog progressDialog = ProgressDialog.show(this,"Please wait", "Registering...", true);
+        final ProgressDialog progressDialog = ProgressDialog.show(this, "Please wait", "Registering...", true);
         progressDialog.setCancelable(true);
 
         new Thread(new Runnable() {
@@ -160,29 +158,27 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void ValidateButton() {
-        if(etEmail.getError()==null &etPassword.getError()==null& etPasswordConfirm.getError() == null && !etEmail.getText().toString().equals("")&&
-                !etPassword.getText().toString().equals("")&&!etPasswordConfirm.getText().toString().equals("")&&!etEmail.getText().toString().equals("")){
+        if (etEmail.getError() == null & etPassword.getError() == null & etPasswordConfirm.getError() == null && !etEmail.getText().toString().equals("") &&
+                !etPassword.getText().toString().equals("") && !etPasswordConfirm.getText().toString().equals("") && !etEmail.getText().toString().equals("")) {
             btnRegister.setEnabled(true);
-        }
-        else{
+        } else {
             btnRegister.setEnabled(false);
         }
-
-
 
 
     }
 
     private void RegisterNewUser() {
         String TAG = "Error";
-        try{
+        try {
 
             Globals g = Globals.getInstance();
 
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(g.getAPIurl()+"/api/account/register");
 
-            String firstname, lastname, email, password, confirmpassword;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(g.getAPIurl() + "/api/account/register");
+
+            String email, password, confirmpassword;
 
 
             email = etEmail.getText().toString();
@@ -200,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
             HttpResponse httpResponse = httpClient.execute(httpPost);
             int statuscode = httpResponse.getStatusLine().getStatusCode();
 
-            if(statuscode==200){
+            if (statuscode == 200) {
                 Intent intent = new Intent();
                 intent.putExtra(LoginActivity.EXTRA_EMAILADDRESS, etEmail.getText().toString());
                 intent.putExtra(LoginActivity.EXTRA_PASSWORD, etPassword.getText().toString());
@@ -208,20 +204,19 @@ public class RegisterActivity extends AppCompatActivity {
 
                 finish();
 
-            }
-            else if(statuscode==400){
+            } else if (statuscode == 400) {
                 String responsebody = EntityUtils.toString(httpResponse.getEntity());
                 JSONObject jsonObject = new JSONObject(responsebody);
                 String error = jsonObject.getString("ModelState");
                 int begin = error.indexOf("[\"");
-                begin+=2;
+                begin += 2;
                 int einde = error.indexOf("\"]");
-                error = error.substring(begin,einde);
-                if(error.indexOf("\",\"")>0){
+                error = error.substring(begin, einde);
+                if (error.indexOf("\",\"") > 0) {
                     begin = error.indexOf("\",\"");
-                    begin+=3;
+                    begin += 3;
                     einde = error.length();
-                    error = error.substring(begin,einde);
+                    error = error.substring(begin, einde);
                 }
                 tvError = (TextView) findViewById(R.id.tvErrorRegister);
 
@@ -229,48 +224,46 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
 
-        }catch(UnknownHostException ex){
-            Log.e(TAG, "No Internet Connection",ex);
+        } catch (UnknownHostException ex) {
+            Log.e(TAG, "No Internet Connection", ex);
             tvError.setEnabled(true);
-            tvError.setText("Could not connect to the server. (Perhaps no internet connection?)");
+            tvError.setText("Could not connect to the server. Please, make sure you have internet connection.");
         } catch (Exception ex) {
-            Log.e(TAG, "Oops! Something went wrong: "+ ex.toString(), ex);
+            Log.e(TAG, "Oops! Something went wrong: " + ex.toString(), ex);
 
         }
     }
 
-    public boolean isPasswordValidLength(String password){
-        String regExpn="\\S{6,}";
+    public boolean isPasswordValidLength(String password) {
+        String regExpn = "\\S{6,}";
 
         CharSequence inputStr = password;
 
         Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
 
-        if(matcher.matches()&&password.matches(".*\\d.*") && password.matches(".*[a-zA-Z]+.*"))
+        if (matcher.matches() && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z]+.*"))
             return true;
         else
             return false;
     }
 
 
-
-    public boolean isEmailValid(String email)
-    {
+    public boolean isEmailValid(String email) {
         String regExpn =
                 "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
         CharSequence inputStr = email;
 
         Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
 
-        if(matcher.matches())
+        if (matcher.matches())
             return true;
         else
             return false;
