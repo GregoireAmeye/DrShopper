@@ -10,7 +10,7 @@
     <string name="lists_string">Shopping lists</string>
 
     <!--Login screen-->
-    <string name="register_link"><u>Register</u></string>
+    <string name="register_link"><u>Not a member? Register now!</u></string>
     <string name="forgot_password_link"><u>Forgot password?</u></string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

@@ -43,6 +43,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         }
 
         final ImageView imgRecipe = vh.imgRecipe;
+
         Picasso.with(getContext()).load(r.getURLFoto()).into(imgRecipe);
 
         TextView tvNameRecipe = vh.tvNameRecipe;

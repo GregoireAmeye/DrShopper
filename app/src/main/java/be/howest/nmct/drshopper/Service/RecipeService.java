@@ -202,7 +202,7 @@ public class RecipeService {
                 addtoUrl += "splitherepls";
             }
             Globals g = Globals.getInstance();
-            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/RecipeTwo/AddNewRecipe?recipename=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction + "&ingredientz=" + addtoUrl);
+            HttpPost httppost = new HttpPost(g.getAPIurl()+"/RecipeTwo/AddNewRecipe?recipename=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction + "&ingredientz=" + addtoUrl);
 
             byte[] data = null;
             try {

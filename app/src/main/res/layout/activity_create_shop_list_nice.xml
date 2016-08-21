@@ -17,14 +17,32 @@
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:theme="@style/AppTheme.AppBarOverlay" />
-
-        <ImageView
-            android:id="@+id/imgShoppingListSelectNice"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#000"
-            android:scaleType="centerCrop"
-            android:src="@drawable/list2" />
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imgShoppingListSelectNice"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#000"
+                android:scaleType="centerCrop"
+                android:src="@drawable/list2" />
+
+            <android.support.design.widget.FloatingActionButton
+                app:backgroundTint="?attr/colorPrimary"
+                android:id="@+id/fabAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_add_a_photo_white_24dp"
+                app:layout_anchor="@id/imgShoppingListSelectNice"
+                app:layout_anchorGravity="bottom|right|end"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignBottom="@+id/imgShoppingListSelectNice"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,18 +52,26 @@
             android:paddingRight="16dp"
             android:paddingTop="32dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <EditText
                     android:id="@+id/etShoppingListNameNice"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:capitalize="sentences"
-                    android:hint="Shoppinglist name" />
+                    android:layout_height="60dp"
+                    android:background="@drawable/edittext"
+                    android:inputType="text"
+                    android:drawableLeft="@drawable/ic_account_circle_white_24dp"
+                    android:drawablePadding="30dp"
+                    android:paddingLeft="19dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:layout_marginBottom="2dp"
+                    android:hint="Shoppinglist name"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
 
-            </android.support.design.widget.TextInputLayout>
 
 
         </LinearLayout>
@@ -95,14 +121,5 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_add_a_photo_white_24dp"
-        app:layout_anchor="@id/imgShoppingListSelectNice"
-        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

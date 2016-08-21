@@ -80,11 +80,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private UserLoginTask mAuthTask = null;
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private TextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private CheckBox chkRememberLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setSupportActionBar(myToolbar);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (TextView) findViewById(R.id.email);
         populateAutoComplete();
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -125,7 +124,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        chkRememberLogin = (CheckBox) findViewById(R.id.chkRememberLogin);
     }
 
     private void CheckIfRememberLogin() {
@@ -195,10 +193,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         String token = jObj.getString("access_token");
                         Log.i(TAG, "Token: " + token);
 
-                        if (chkRememberLogin.isChecked())
-                            WriteTokenToSharedPref(token, username);
-                        else
-                            WriteTokenToSharedPref("drshopper.token", "drshopper.username");
+                        WriteTokenToSharedPref(token, username);
 
                         //start new activity with intent
                         Intent intent = new Intent(LoginActivity.this, ShoppingListsActivity.class);
@@ -467,7 +462,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
     }
 
 

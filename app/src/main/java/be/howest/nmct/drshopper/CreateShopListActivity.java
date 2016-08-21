@@ -1,7 +1,9 @@
 package be.howest.nmct.drshopper;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -9,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,12 +31,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import be.howest.nmct.drshopper.Admin.Models.Keyboard;
+import be.howest.nmct.drshopper.Admin.SendIngredientsToShoplistAlert;
 import be.howest.nmct.drshopper.Service.ShoppingListService;
 
 public class CreateShopListActivity extends AppCompatActivity {
     public static final int FILE_SELECT_CODE = 1;
     ImageView imgPic;
-    Uri selectedImageUri = null;
+    Bitmap newImage = null;
     EditText etShoplistName;
     Button btnCreateShoppinglist;
     TextView tvError;
@@ -53,7 +58,7 @@ public class CreateShopListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFileExplorer();
+                dispatchTakePictureIntent();
             }
         });
 
@@ -111,19 +116,15 @@ public class CreateShopListActivity extends AppCompatActivity {
     private void createShoppingList() {
         Keyboard.toggle(this);
         try {
-            if (selectedImageUri != null) {
+            if (newImage != null) {
 
-                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString(), bm).get();
+                boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString(), newImage).get();
 
             } else {
                 boolean test = new ShoppingListService.createNewShoppingListb().execute(etShoplistName.getText().toString()).get();
 
 
             }
-        } catch (FileNotFoundException ex) {
-
-        } catch (IOException ex) {
 
         } catch (InterruptedException ex) {
 
@@ -132,6 +133,13 @@ public class CreateShopListActivity extends AppCompatActivity {
         }
 
 
+    }
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     private void openFileExplorer() {
@@ -152,13 +160,18 @@ public class CreateShopListActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case FILE_SELECT_CODE:
                     selectedImageUri = data.getData();
                     setBitMapImageview(selectedImageUri);
                     break;
             }
+        }*/
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            newImage = (Bitmap) extras.get("data");
+            imgPic.setImageBitmap(newImage);
         }
 
     }
@@ -205,4 +218,6 @@ public class CreateShopListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
