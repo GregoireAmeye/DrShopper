@@ -8,7 +8,7 @@
     android:orientation="vertical"
 
     android:weightSum="1"
-    tools:context="be.howest.nmct.drshopper.CreateShopListActivity">
+    tools:context="be.howest.nmct.shopperio.CreateShopListActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -50,7 +50,6 @@
         android:id="@+id/tvErrorCreateShopList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
-        android:textColor="#FF0000" />
+        android:textColor="#FF6666" />
 
 </LinearLayout>

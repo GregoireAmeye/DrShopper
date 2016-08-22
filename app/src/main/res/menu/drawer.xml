@@ -15,5 +15,16 @@
             android:icon="@drawable/recipes"
             android:title="@string/recipes_string" />
 
+        <!--<item
+            android:id="@+id/Account"
+            android:checked="false"
+            android:icon="@drawable/ic_account_circle_white_24dp"
+            android:title="Profile" />-->
+
+        <item
+            android:id="@+id/logout"
+            android:checked="false"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout_string" />
     </group>
 </menu>

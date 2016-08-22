@@ -60,7 +60,8 @@
                     android:layout_height="60dp"
                     android:background="@drawable/edittext"
                     android:inputType="text"
-                    android:drawableLeft="@drawable/ic_account_circle_white_24dp"
+                    android:drawableLeft="@drawable/ic_format_list_bulleted_black_24dp"
+                    android:drawableTint="#ffffff"
                     android:drawablePadding="30dp"
                     android:paddingLeft="19dp"
                     android:paddingRight="20dp"
@@ -71,6 +72,23 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     />
+
+            <TextView
+                android:id="@+id/tvErrorCreateShopList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000" />
+
+            <Button
+                android:id="@+id/btnAddList"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="Add list"
+                android:background="?attr/colorPrimary"
+                android:textStyle="bold"
+                android:textColor="#ffffff"/>
 
 
 

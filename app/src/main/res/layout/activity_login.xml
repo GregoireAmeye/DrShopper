@@ -97,8 +97,9 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="Login incorrect"
-                android:textColor="#FF0000"
-                android:visibility="gone" />
+                android:textColor="#FF6666"
+                android:visibility="gone"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/email_sign_in_button"

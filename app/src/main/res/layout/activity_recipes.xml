@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <be.howest.nmct.drshopper.Tabs.SlidingTabLayout
+                <be.howest.nmct.shopperio.Tabs.SlidingTabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-                <android.support.design.widget.FloatingActionButton
+                <!--<android.support.design.widget.FloatingActionButton
                     android:id="@+id/fabAddNewRecipe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:layout_marginRight="@dimen/fab_margin"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true" />-->
             </RelativeLayout>
         </FrameLayout>
     </LinearLayout>
@@ -86,26 +86,6 @@
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/empty_spacer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clickable="false" />
-
-            <android.support.design.widget.NavigationView
-                android:id="@+id/footer"
-                android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:scrollbars="none"
-                app:menu="@menu/drawer_footer">
-
-            </android.support.design.widget.NavigationView>
-        </LinearLayout>
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

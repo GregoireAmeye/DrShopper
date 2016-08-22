@@ -46,13 +46,21 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 />
+            <TextView
+                android:id="@+id/tvErrorRegister"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Email required"
+                android:textColor="#FF6666"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/edittext"
-                android:inputType="textPassword"
+                android:inputType="textEmailAddress"
                 android:drawableLeft="@drawable/ic_lock_white_24dp"
                 android:drawablePadding="30dp"
                 android:paddingLeft="19dp"
@@ -64,6 +72,14 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 />
+            <TextView
+                android:id="@+id/tvErrorRegisterPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Password required"
+                android:textColor="#FF6666"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/etPasswordConfirm"
@@ -81,6 +97,14 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 />
+            <TextView
+                android:id="@+id/tvErrorRegisterConfirm"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Confirm password required"
+                android:textColor="#FF6666"
+                android:visibility="gone"/>
 
 
 
@@ -92,17 +116,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in_short"
+                android:text="@string/action_register"
                 android:background="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:textColor="#ffffff"/>
 
-    <TextView
-        android:id="@+id/tvErrorRegister"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:textColor="#FF0000" />
         </LinearLayout>
 </RelativeLayout>
 

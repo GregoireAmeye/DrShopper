@@ -84,7 +84,8 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginLeft="16dp"
-                            android:src="@drawable/ic_description_black_24dp" />
+                            android:src="@drawable/ic_description_black_24dp"
+                            android:tint="?attr/colorPrimary" />
 
                         <TextView
                             android:id="@+id/tvDescriptionRecipe"
@@ -105,7 +106,8 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginLeft="16dp"
-                            android:src="@drawable/ic_info_black_24dp" />
+                            android:src="@drawable/ic_info_black_24dp"
+                            android:tint="?attr/colorPrimary" />
 
                         <TextView
                             android:id="@+id/tvInstructionsRecipe"
@@ -126,7 +128,8 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginLeft="16dp"
-                            android:src="@drawable/ic_format_list_bulleted_black_24dp" />
+                            android:src="@drawable/ic_format_list_bulleted_black_24dp"
+                            android:tint="?attr/colorPrimary" />
 
                         <ListView
                             android:id="@+id/lsvIngredients"
