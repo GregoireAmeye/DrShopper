@@ -36,9 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText etEmail, etPassword, etPasswordConfirm;
     Button btnRegister;
     TextView tvError;
-    TextView tvErrorPassword;
-    TextView tvErrorConfirm;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +50,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void InitUiItems() {
         etEmail = (EditText) findViewById(R.id.etEmail);
+        tvError = (TextView) findViewById(R.id.tvErrorRegister);
 
         etPassword = (EditText) findViewById(R.id.etPassword);
         etPasswordConfirm = (EditText) findViewById(R.id.etPasswordConfirm);
         btnRegister = (Button) findViewById(R.id.btnRegister);
-        tvError = (TextView) findViewById(R.id.tvErrorRegister);
-        tvErrorPassword = (TextView) findViewById(R.id.tvErrorRegisterPassword);
-        tvErrorConfirm = (TextView) findViewById(R.id.tvErrorRegisterConfirm);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,19 +62,19 @@ public class RegisterActivity extends AppCompatActivity {
                 ShowDialogAndRegisterUser();
 
                 if(etEmail.getText().toString().trim().equals("")) {
-                    tvError.setVisibility(View.VISIBLE);
+                    etEmail.setError("Email field required!");
                 } else {
-                    tvError.setVisibility(View.INVISIBLE);
+                    etEmail.setError(null);
                 }
                 if(etPassword.getText().toString().trim().equals("")) {
-                    tvErrorPassword.setVisibility(View.VISIBLE);
+                    etPassword.setError("Password field required!");
                 } else {
-                    tvErrorPassword.setVisibility(View.INVISIBLE);
+                    etPassword.setError(null);
                 }
                 if(etPasswordConfirm.getText().toString().trim().equals("")) {
-                    tvErrorConfirm.setVisibility(View.VISIBLE);
+                    etPasswordConfirm.setError("Confirm password field required!");
                 } else {
-                    tvErrorConfirm.setVisibility(View.INVISIBLE);
+                    etPasswordConfirm.setError(null);
                 }
             }
         });
@@ -101,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
                     etEmail.setError("Invalid email address");
                 } else {
                     etEmail.setError(null);
-                    tvError.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -127,7 +121,6 @@ public class RegisterActivity extends AppCompatActivity {
                     etPassword.setError("Password must be at least 6 characters long and contain characters and numbers.");
                 } else {
                     etPassword.setError(null);
-                    tvErrorPassword.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -135,7 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
                     etPasswordConfirm.setError("Passwords do not match");
                 else {
                     etPasswordConfirm.setError(null);
-                    tvErrorConfirm.setVisibility(View.INVISIBLE);
                 }
 
                 ValidateButton();
@@ -248,7 +240,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         } catch (UnknownHostException ex) {
             Log.e(TAG, "No Internet Connection", ex);
-            tvError.setEnabled(true);
             tvError.setText("Could not connect to the server. Please, make sure you have internet connection.");
         } catch (Exception ex) {
             Log.e(TAG, "Oops! Something went wrong: " + ex.toString(), ex);

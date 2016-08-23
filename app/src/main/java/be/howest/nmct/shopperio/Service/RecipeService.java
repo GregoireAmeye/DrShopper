@@ -203,7 +203,7 @@ public class RecipeService {
                 addtoUrl += "-";
             }
             Globals g = Globals.getInstance();
-            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/Recipe/AddNewRecipe?name=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction +"&ingredients="+addtoUrl);
+            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/Recipe/AddNewRecipe?name=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction);
 
             byte[] data = null;
             try {

@@ -52,7 +52,7 @@ import be.howest.nmct.shopperio.Admin.OfflineIngredientDatabase;
 import be.howest.nmct.shopperio.Admin.ShoppingListIngredientAdapter;
 import be.howest.nmct.shopperio.Service.ShoppingListService;
 
-public class ShoppingListDetailScrollActivity extends AppCompatActivity implements AddIngredientAlert.OnAddListener, SensorEventListener {
+public class ShoppingListDetailScrollActivity extends AppCompatActivity  {
     public final static String EXTRA_SL = "be.howest.nmct.drshopper.SHOPPINGLIST";
     public final static String EXTRA_SL_NAME = "be.howest.nmct.drshopper.SHOPPINGLIST.name";
     ShoppingList sl = null;
@@ -252,7 +252,6 @@ public class ShoppingListDetailScrollActivity extends AppCompatActivity implemen
     private void showPopupAddIngredient() {
         ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         AddIngredientAlert alert = new AddIngredientAlert();
-        alert.mListener = this;
         alert.show(getFragmentManager(), "");
 
     }
@@ -386,7 +385,7 @@ public class ShoppingListDetailScrollActivity extends AppCompatActivity implemen
         startActivity(intent);
     }
 
-    @Override
+    /*@Override
     public void addNewIngredient(String ingredientName, String quanitity, String measure) {
         ingredientName = sanatizeParameter(ingredientName);
         quanitity = sanatizeParameter(quanitity);
@@ -404,7 +403,7 @@ public class ShoppingListDetailScrollActivity extends AppCompatActivity implemen
         ingr.setIsChecked(false);
         addNewIngredientToList(ingr);
         hideKeyboard();
-    }
+    }*/
 
     private void hideKeyboard() {
         Keyboard.toggle(this);
@@ -439,7 +438,6 @@ public class ShoppingListDetailScrollActivity extends AppCompatActivity implemen
             }
         }).start();
         super.onPause();
-        mSensorManager.unregisterListener(this);
     }
 
     private void writeCheckedToSqlite() {
@@ -496,34 +494,8 @@ public class ShoppingListDetailScrollActivity extends AppCompatActivity implemen
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.values[0] == 0) {
-            turnOffScreen();
-        } else {
-            turnOnScreen();
-        }
-    }
 
-    public void turnOnScreen() {
-        if (wakeLock.isHeld()) {
-            wakeLock.release();
-        }
-    }
-
-
-    public void turnOffScreen() {
-        if (!wakeLock.isHeld()) {
-            wakeLock.acquire();
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
 }
