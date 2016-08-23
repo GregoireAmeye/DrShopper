@@ -28,21 +28,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        /*if (position == 0) // if the position is 0 we are returning the First tab
-        {
-            AllRecipesFragment tab1 = new AllRecipesFragment();
-            return tab1;
-        } else */if (position == 0) // if the position is 0 we are returning the First tab
+        if (position == 0) // if the position is 0 we are returning the First tab
         {
             YourRecipesFragment tab2 = new YourRecipesFragment();
             return tab2;
-        } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+        } else if (position == 1)         // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             FavoriteRecipesFragment tab3 = new FavoriteRecipesFragment();
             return tab3;
+        } else if (position == 2) // if the position is 0 we are returning the First tab
+        {
+            AllRecipesFragment tab1 = new AllRecipesFragment();
+            return tab1;
         }
 
-
+        return null;
     }
 
     // This method return the titles for the Tabs in the Tab Strip

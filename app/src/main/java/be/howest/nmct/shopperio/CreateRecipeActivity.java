@@ -131,7 +131,7 @@ public class CreateRecipeActivity extends AppCompatActivity implements AddIngred
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 boolean test = new RecipeService.createNewRecipe().execute(etRecipeName.getText().toString(), etDescription.getText().toString(), etInstructions.getText().toString(), ingredients, bm).get();
             } else {
-                boolean test = new RecipeService.createNewRecipe().execute(etRecipeName.getText().toString(), etDescription.getText().toString(), etInstructions.getText().toString(), ingredients).get();
+                boolean test = new RecipeService.createNewRecipe().execute(etRecipeName.getText().toString(), etDescription.getText().toString(), etInstructions.getText().toString(), ingredients, null).get();
             }
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {

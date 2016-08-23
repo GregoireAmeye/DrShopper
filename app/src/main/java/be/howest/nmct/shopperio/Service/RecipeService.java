@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -199,18 +200,17 @@ public class RecipeService {
             for (Ingredient i : recipeIngredient) {
 
                 addtoUrl += i.getName();
-                addtoUrl += "splitherepls";
+                addtoUrl += "-";
             }
             Globals g = Globals.getInstance();
-            HttpPost httppost = new HttpPost(g.getAPIurl()+"/RecipeTwo/AddNewRecipe?recipename=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction + "&ingredientz=" + addtoUrl);
+            HttpPost httppost = new HttpPost(g.getAPIurl()+"/Api/Recipe/AddNewRecipe?name=" + recipeName + "&description=" + recipeDescription + "&instruction=" + recipeInstruction +"&ingredients="+addtoUrl);
 
             byte[] data = null;
             try {
-                httppost.setHeader("Authorization", "Bearer " + g.getToken());
+                httppost.setHeader("Authorization", "bearer " + g.getToken());
                 Bitmap bm = null;
 
                 bm = (Bitmap) params[4];
-
 
                 MultipartEntity entity = new MultipartEntity();
 
@@ -218,7 +218,7 @@ public class RecipeService {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 70, bos);
                     data = bos.toByteArray();
-                    entity.addPart("uplod_img", new ByteArrayBody(data, "image/jpeg", "pic.jpg"));
+                    entity.addPart("upload_img", new ByteArrayBody(data, "image/jpeg", "pic.jpg"));
                 }
 
 

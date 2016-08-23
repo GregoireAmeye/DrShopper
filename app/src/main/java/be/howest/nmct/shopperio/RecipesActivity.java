@@ -47,7 +47,7 @@ public class RecipesActivity extends ActionBarActivity {
     FloatingActionButton fabAddNewRecipe;
     CoordinatorLayout coordinatorLayout;
     Intent intent;
-    String[] Titles = {"Featured", "Favourite"};
+    String[] Titles = {"Featured", "Favourite", "your"};
     int Numboftabs = Titles.length;
     Context c = null;
     private NavigationView navigationView;
@@ -110,13 +110,13 @@ public class RecipesActivity extends ActionBarActivity {
         ImageView imgProfile = (ImageView) header.findViewById(R.id.imgProfile);
         imgProfile.setImageBitmap(getBitmapFromURL(g.getFotoUrl()));
 
-        /*fabAddNewRecipe = (FloatingActionButton) findViewById(R.id.fabAddNewRecipe);
+        fabAddNewRecipe = (FloatingActionButton) findViewById(R.id.fabAddNewRecipe);
         fabAddNewRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateNewRecipe();
             }
-        });*/
+        });
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
