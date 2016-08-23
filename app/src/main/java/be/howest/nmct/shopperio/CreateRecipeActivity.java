@@ -41,6 +41,7 @@ import be.howest.nmct.shopperio.Service.RecipeService;
 public class CreateRecipeActivity extends AppCompatActivity implements AddIngredientRecipeAlert.OnAddListener {
     public static final int FILE_SELECT_CODE = 1;
     public static List<Recipe> lstRecipes = null;
+
     ImageView imgPic;
     Uri selectedImageUri = null;
     EditText etRecipeName;
@@ -65,6 +66,18 @@ public class CreateRecipeActivity extends AppCompatActivity implements AddIngred
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvAddIngredient = (TextView) findViewById(R.id.tvAddIngr);
+        btnCreateRecipe = (Button) findViewById(R.id.btnCreateRecipe);
+
+        btnCreateRecipe.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final ProgressDialog progressDialog = ProgressDialog.show(CreateRecipeActivity.this, "Please wait", "Creating recipe...", true);
+                progressDialog.setCancelable(true);
+                createRecipe();
+                goToRecipesActivity();
+                progressDialog.dismiss();
+            }
+        });
 
         tvAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,13 +114,6 @@ public class CreateRecipeActivity extends AppCompatActivity implements AddIngred
         recyclerView.setAdapter(mAdapter);
 
         imgPic = (ImageView) findViewById(R.id.imgRecipe);
-        fabAddImage = (FloatingActionButton) findViewById(R.id.fabAddImage);
-        fabAddImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileExplorer();
-            }
-        });
 
         etRecipeName = (EditText) findViewById(R.id.etRecipeName);
 
@@ -209,8 +215,10 @@ public class CreateRecipeActivity extends AppCompatActivity implements AddIngred
         if (id == R.id.action_save_recipe) {
             if (etRecipeName.getText().toString().equals("")) {
                 etRecipeName.setError("Required");
+
             } else {
                 final ProgressDialog progressDialog = ProgressDialog.show(CreateRecipeActivity.this, "Please wait", "Creating recipe...", true);
+
                 progressDialog.setCancelable(true);
                 new Thread(new Runnable() {
                     @Override
